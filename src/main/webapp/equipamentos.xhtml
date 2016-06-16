@@ -1,0 +1,56 @@
+<ui:composition template="./template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:a4j="http://richfaces.org/a4j"
+                xmlns:rich="http://richfaces.org/rich">
+    <ui:define name="content">
+        <h2 id="equipamentos">#{msg.equipamentos}</h2>
+        <h:form id="equipamentosForm">
+            <rich:dataTable id="equipamentosTable" rows="5" value="#{equipamentoController.equipamentos}" var="equipamento" styleClass="table table-striped table-hover">
+                <rich:column id="colEquipamento" sortBy="#{equipamento.equipamento}" sortOrder="#{equipamentoSortingBean.sortOrderEquipamento}">
+                    <f:facet name="header">
+                        <a4j:commandLink id="colEquipamentoSort" value="#{msg.equipamento}" render="equipamentosTable" action="#{equipamentoSortingBean.setSortOrderToEquipamento}" />
+                    </f:facet>
+                    <h:outputText id="equipamento" value="#{equipamento.equipamento}"/>
+                </rich:column>
+                <rich:column id="colDescricao" sortBy="#{equipamento.descricao}" sortOrder="#{equipamentoSortingBean.sortOrderDescricao}">
+                    <f:facet name="header">
+                        <a4j:commandLink id="colDescricaoSort" value="#{msg.descricao}" render="equipamentosTable" action="#{equipamentoSortingBean.setSortOrderToDescricao}" />
+                    </f:facet>
+                    <h:outputText id="descricao" value="#{equipamento.descricao}"/>
+                </rich:column>
+                <rich:column id="colQuantidade" sortBy="#{equipamento.quantidade}" sortOrder="#{equipamentoSortingBean.sortOrderQuantidade}">
+                    <f:facet name="header">
+                        <a4j:commandLink id="colQuantidadeSort" value="#{msg.quantidade}" render="equipamentosTable" action="#{equipamentoSortingBean.setSortOrderToQuantidade}" />
+                    </f:facet>
+                    <h:outputText id="quantidade" value="#{equipamento.quantidade}"/>
+                </rich:column>
+                <rich:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{msg.edit}"/>
+                    </f:facet>
+                    <h:commandLink id="edit" action="#{equipamentoController.getEditForm(equipamento.id)}"><span
+                            class="glyphicon glyphicon-edit"/></h:commandLink>
+                </rich:column>
+                <rich:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{msg.delete}"/>
+                    </f:facet>
+                    <h:commandLink id="delete" action="#{equipamentoController.deleteEquipamento(equipamento.id)}"><span
+                            class="glyphicon glyphicon-trash"/></h:commandLink>
+                </rich:column>
+            </rich:dataTable>
+            <rich:dataScroller for="equipamentosTable"
+                               page="#{equipamentoController.scrollerPage}"
+                               id="scroller"/><br/>
+            <br/>
+            <span class="glyphicon glyphicon-plus-sign"/><h:commandLink id="getNewEquipamentoForm"
+                                                                        action="#{equipamentoController.getNewEquipamentoForm}">#{msg.addNewEquipamento}</h:commandLink><br/>
+            <br/>
+            <span class="glyphicon glyphicon-circle-arrow-right"/><h:outputLink value="./rest/equipamentos/xml">#{msg.showXml}</h:outputLink>
+            
+        </h:form>
+    </ui:define>
+</ui:composition>
